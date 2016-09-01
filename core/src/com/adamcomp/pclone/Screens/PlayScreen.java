@@ -20,11 +20,9 @@ public class PlayScreen implements Screen{
 
 
     public PlayScreen(){
-        
+
     }
 
-    public PlayScreen() {
-    }
 
 
     @Override
