@@ -1,6 +1,8 @@
 package com.adamcomp.pclone.Sprites;
 
 import com.adamcomp.pclone.Main;
+import com.adamcomp.pclone.Screens.PlayScreen;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -15,25 +18,27 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Clone extends Sprite{
     public World world;
-    public Body b2body;
+    public Body body;
 
-    public Clone(){
+    public Clone(World world){
+        this.world = world;
+        setUpClone();
     }
 
     public void setUpClone(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / Main.PPM, 32 / Main.PPM);
+        bdef.position.set(320 / Main.PPM, 450 / Main.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
+        body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / Main.PPM);
+        shape.setRadius(10 / Main.PPM);
         //fdef.filter.categoryBits = 
        // fdef.filter.maskBits =
 
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData(this);
+        body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
@@ -41,6 +46,11 @@ public class Clone extends Sprite{
         fdef.shape = head;
         fdef.isSensor = true;
 
-        b2body.createFixture(fdef).setUserData(this);
+        body.createFixture(fdef).setUserData(this);
+
+    }
+
+    public void draw(Batch batch){
+        super.draw(batch);
     }
 }
