@@ -4,6 +4,7 @@ import com.adamcomp.pclone.Main;
 import com.adamcomp.pclone.Sprites.Clone;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,6 +30,8 @@ public class PlayScreen implements Screen{
     //Box2d variables
     private World world;
     private Box2DDebugRenderer b2dr;
+
+    private Clone player;
 
     public PlayScreen(Game game){
         this.game = game;
@@ -58,15 +61,28 @@ public class PlayScreen implements Screen{
         body.createFixture(fdef);
 
 
-        Clone a = new Clone(world);
+        player = new Clone(world);
         // set up box2d cam
         gamecam = new OrthographicCamera();
         gamecam.setToOrtho(false, Main.V_WIDTH / Main.PPM, Main.V_HEIGHT / Main.PPM);
     }
 
 
+    public void handleInput(float dt){
+        //control our player using immediate impulses
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+                player.body.applyLinearImpulse(new Vector2(0, 4f), player.body.getWorldCenter(), true);
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2)
+                player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x >= -2)
+                player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
+    }
+
+
+
     public void update(float dt){
         world.step(1 / 60f, 6, 2);
+        handleInput(dt);
 
 
         gamecam.update();
@@ -82,13 +98,13 @@ public class PlayScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        update(delta);
 
         // clear screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // draw box2d world
         b2dr.render(world, gamecam.combined);
+        update(delta);
     }
 
     @Override
