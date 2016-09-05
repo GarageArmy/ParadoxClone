@@ -13,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.Stack;
+
 /**
  * Created by Adam on 2016. 09. 01..
  */
@@ -20,8 +22,11 @@ public class Clone extends Sprite{
     public World world;
     public Body body;
 
+    public Stack<String> movement;
+
     public Clone(World world){
         this.world = world;
+        movement = new Stack<String>();
         setUpClone();
     }
 
@@ -47,7 +52,10 @@ public class Clone extends Sprite{
         fdef.isSensor = true;
 
         body.createFixture(fdef).setUserData(this);
+    }
 
+    public void setMovement(String a){
+        movement.push(a);
     }
 
     public void draw(Batch batch){

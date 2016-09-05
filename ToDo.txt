@@ -1,0 +1,8 @@
+- Pályatervezõ
+
+PlayStage
+ - klónozó cucc
+ - pálya (falak etc..)
+ - klónok mozgása
+
+Ads
