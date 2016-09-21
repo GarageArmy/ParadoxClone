@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.FileReader;
 
 public class Main extends Game {
     private XmlReader.Element dom; //BTW Stands for Document Object Model
