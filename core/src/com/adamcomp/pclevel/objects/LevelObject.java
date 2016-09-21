@@ -8,13 +8,12 @@ import com.badlogic.gdx.utils.XmlReader.Element;
  * Created by Gabriel025 on 2016.09.16.
  */
 
-public abstract class LevelObject{
-    private World world;
+public class LevelObject{
     private Element element;
 
-    public LevelObject(World world, Element element)
+    public LevelObject(Element element)
     {
-        this.world = world;
+        this.element = element;
     }
 
     Element getXML()
@@ -22,5 +21,7 @@ public abstract class LevelObject{
         return element;
     }
 
-    abstract void render();
+    void render() {
+
+    }
 }
