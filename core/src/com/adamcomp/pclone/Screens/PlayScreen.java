@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Stack;
+
 /**
  * Created by Adam on 2016. 09. 01..
  */
@@ -32,9 +34,13 @@ public class PlayScreen implements Screen{
     private Box2DDebugRenderer b2dr;
 
     private Clone player;
+    private Stack<Clone> cloneStack;
+
+    private int cloneFrame = 0;
 
     public PlayScreen(Game game){
         this.game = game;
+        cloneStack = new Stack<Clone>();
 
         world = new World(new Vector2(0, -9.81f), true);
         b2dr = new Box2DDebugRenderer();
@@ -61,7 +67,7 @@ public class PlayScreen implements Screen{
         body.createFixture(fdef);
 
 
-        player = new Clone(world);
+        player = new Clone(world, 360, 450);
         // set up box2d cam
         gamecam = new OrthographicCamera();
         gamecam.setToOrtho(false, Main.V_WIDTH / Main.PPM, Main.V_HEIGHT / Main.PPM);
@@ -83,6 +89,17 @@ public class PlayScreen implements Screen{
                 player.setMovement("L");
             }
             else player.setMovement("0");
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            player.body.setTransform(360/Main.PPM,450/Main.PPM,90);
+            for (int i = 0; i < cloneStack.size(); i++){
+                cloneStack.get(i).body.setTransform(360 / Main.PPM,450/Main.PPM,90);
+            }
+            cloneStack.push(player);
+            cloneFrame = 0;
+            player = new Clone(world, 360, 450);
+        }
+
     }
 
 
@@ -90,6 +107,22 @@ public class PlayScreen implements Screen{
     public void update(float dt){
         world.step(1 / 60f, 6, 2);
         handleInput(dt);
+        if (!cloneStack.empty()) {
+            for (int i = 0; i < cloneStack.size(); i++) {
+                if (cloneStack.get(i).movement.size() > cloneFrame) {
+                    if (cloneStack.get(i).movement.get(cloneFrame) == "J")
+                        cloneStack.get(i).body.applyLinearImpulse(new Vector2(0, 4f), player.body.getWorldCenter(), true);
+
+                    if (cloneStack.get(i).movement.get(cloneFrame) == "R")
+                        cloneStack.get(i).body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
+
+                    if (cloneStack.get(i).movement.get(cloneFrame) == "L")
+                        cloneStack.get(i).body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
+                }
+            }
+            cloneFrame++;
+        }
+
 
 
         gamecam.update();

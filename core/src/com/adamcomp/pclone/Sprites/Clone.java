@@ -23,16 +23,18 @@ public class Clone extends Sprite{
     public Body body;
 
     public Stack<String> movement;
+    private float posX, posY;
 
-    public Clone(World world){
+    public Clone(World world, float x, float y){
         this.world = world;
         movement = new Stack<String>();
+        posX = x; posY = y;
         setUpClone();
     }
 
     public void setUpClone(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(320 / Main.PPM, 450 / Main.PPM);
+        bdef.position.set(posX / Main.PPM, posY / Main.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bdef);
 
@@ -53,6 +55,7 @@ public class Clone extends Sprite{
 
         body.createFixture(fdef).setUserData(this);
     }
+
 
     public void setMovement(String a){
         movement.push(a);
