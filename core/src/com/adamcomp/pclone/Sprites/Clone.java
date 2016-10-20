@@ -41,9 +41,8 @@ public class Clone extends Sprite{
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(10 / Main.PPM);
-        //fdef.filter.categoryBits = 
-       // fdef.filter.maskBits =
-
+        fdef.filter.categoryBits = Main.bitClone;
+        fdef.filter.maskBits = ~Main.bitClone;
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
 

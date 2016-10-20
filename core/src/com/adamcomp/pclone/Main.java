@@ -11,6 +11,7 @@ public class Main extends Game {
 	public static final float PPM = 100;
 	public static final int V_WIDTH = 640;
 	public static final int V_HEIGHT = 480;
+	public static final short bitClone = 2;
 	public SpriteBatch batch;
 
 	@Override

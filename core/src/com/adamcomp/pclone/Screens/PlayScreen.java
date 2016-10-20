@@ -93,7 +93,7 @@ public class PlayScreen implements Screen{
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             player.body.setTransform(360/Main.PPM,450/Main.PPM,90);
             for (int i = 0; i < cloneStack.size(); i++){
-                cloneStack.get(i).body.setTransform(360 / Main.PPM,450/Main.PPM,90);
+                cloneStack.get(i).body.setTransform(360 / Main.PPM,450/Main.PPM,0);
             }
             cloneStack.push(player);
             cloneFrame = 0;
