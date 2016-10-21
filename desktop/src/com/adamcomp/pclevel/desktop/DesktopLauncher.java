@@ -1,6 +1,6 @@
 package com.adamcomp.pclevel.desktop;
 
-import com.adamcomp.pclevel.Main;
+import com.adamcomp.pclone.Main;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 

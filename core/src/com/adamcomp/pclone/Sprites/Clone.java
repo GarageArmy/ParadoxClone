@@ -33,26 +33,7 @@ public class Clone extends Sprite{
     }
 
     public void setUpClone(){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(posX / Main.PPM, posY / Main.PPM);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bdef);
 
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(10 / Main.PPM);
-        fdef.filter.categoryBits = Main.bitClone;
-        fdef.filter.maskBits = ~Main.bitClone;
-        fdef.shape = shape;
-        body.createFixture(fdef).setUserData(this);
-
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Main.PPM, 6 / Main.PPM), new Vector2(2 / Main.PPM, 6 / Main.PPM));
-       // fdef.filter.categoryBits =
-        fdef.shape = head;
-        fdef.isSensor = true;
-
-        body.createFixture(fdef).setUserData(this);
     }
 
 

@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.uwsoft.editor.renderer.SceneLoader;
 
 import java.util.Stack;
 
@@ -26,7 +27,7 @@ import java.util.Stack;
  */
 public class PlayScreen implements Screen{
 
-    private OrthographicCamera gamecam;
+
     private Game game;
 
     //Box2d variables
@@ -39,6 +40,11 @@ public class PlayScreen implements Screen{
     private int cloneFrame = 0;
 
     public PlayScreen(Game game){
+        Viewport viewport = new FitViewport(300, 200);
+        SceneLoader sceneLoader = new SceneLoader();
+        sceneLoader.loadScene("MainScene", viewport);
+
+
         this.game = game;
         cloneStack = new Stack<Clone>();
 
@@ -46,59 +52,11 @@ public class PlayScreen implements Screen{
         b2dr = new Box2DDebugRenderer();
 
         // create platform
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(320 / Main.PPM, 240 / Main.PPM);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        Body body = world.createBody(bdef);
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(100 / Main.PPM, 10 / Main.PPM);
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = shape;
-        body.createFixture(fdef);
-
-        // create falling box
-        bdef.position.set(320 / Main.PPM, 400 / Main.PPM);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bdef);
-
-        shape.setAsBox(10 / Main.PPM, 10 / Main.PPM);
-        fdef.shape = shape;
-        body.createFixture(fdef);
-
-
-        player = new Clone(world, 360, 450);
-        // set up box2d cam
-        gamecam = new OrthographicCamera();
-        gamecam.setToOrtho(false, Main.V_WIDTH / Main.PPM, Main.V_HEIGHT / Main.PPM);
     }
 
 
     public void handleInput(float dt){
-        //control our player using immediate impulses
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                player.body.applyLinearImpulse(new Vector2(0, 4f), player.body.getWorldCenter(), true);
-                player.setMovement("J");
-            }
-            else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2) {
-                player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
-                player.setMovement("R");
-            }
-            else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x >= -2) {
-                player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
-                player.setMovement("L");
-            }
-            else player.setMovement("0");
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            player.body.setTransform(360/Main.PPM,450/Main.PPM,90);
-            for (int i = 0; i < cloneStack.size(); i++){
-                cloneStack.get(i).body.setTransform(360 / Main.PPM,450/Main.PPM,0);
-            }
-            cloneStack.push(player);
-            cloneFrame = 0;
-            player = new Clone(world, 360, 450);
-        }
 
     }
 
@@ -125,7 +83,6 @@ public class PlayScreen implements Screen{
 
 
 
-        gamecam.update();
 
     }
 
@@ -143,7 +100,6 @@ public class PlayScreen implements Screen{
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // draw box2d world
-        b2dr.render(world, gamecam.combined);
         update(delta);
     }
 

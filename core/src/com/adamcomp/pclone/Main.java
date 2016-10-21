@@ -1,28 +1,29 @@
 package com.adamcomp.pclone;
 
 import com.adamcomp.pclone.Screens.PlayScreen;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.uwsoft.editor.renderer.SceneLoader;
 
-public class Main extends Game {
-	public static final float PPM = 100;
-	public static final int V_WIDTH = 640;
-	public static final int V_HEIGHT = 480;
-	public static final short bitClone = 2;
-	public SpriteBatch batch;
-
+public class Main extends ApplicationAdapter {
+	SceneLoader sceneLoader;
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
-
+		Viewport viewport = new FitViewport(300, 200);
+		sceneLoader = new SceneLoader();
+		sceneLoader.loadScene("MainScene");
 	}
 
 	@Override
 	public void render () {
-		super.render();
+		Gdx.gl.glClearColor(0,0,0,1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		sceneLoader.getEngine().update(Gdx.graphics.getDeltaTime());
 	}
 }
