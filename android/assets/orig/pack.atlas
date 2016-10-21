@@ -1,13 +1,20 @@
 
 pack.png
-size: 128,128
+size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-box
+grass
   rotate: false
-  xy: 2, 2
+  xy: 70, 24
   size: 70, 70
   orig: 70, 70
+  offset: 0, 0
+  index: -1
+p1front
+  rotate: false
+  xy: 2, 2
+  size: 66, 92
+  orig: 66, 92
   offset: 0, 0
   index: -1

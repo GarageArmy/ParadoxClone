@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public class Main extends ApplicationAdapter {
 	SceneLoader sceneLoader;
@@ -17,7 +18,12 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		Viewport viewport = new FitViewport(300, 200);
 		sceneLoader = new SceneLoader();
-		sceneLoader.loadScene("MainScene");
+		sceneLoader.loadScene("MainScene", viewport);
+
+		Player player = new Player();
+		ItemWrapper root = new ItemWrapper(sceneLoader.getRoot());
+
+		root.getChild("player").addScript(player);
 	}
 
 	@Override
