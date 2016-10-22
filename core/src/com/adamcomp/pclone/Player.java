@@ -149,4 +149,7 @@ public class Player implements IScript {
     public float getHeight (){
         return dimensionsComponent.height;
     }
+    public Stack<String> getStack(){
+        return movementSequence;
+    }
 }
