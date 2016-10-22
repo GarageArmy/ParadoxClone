@@ -1,0 +1,76 @@
+
+hud_Pack.png
+size: 128,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hud
+  rotate: false
+  xy: 2, 86
+  size: 32, 40
+  orig: 32, 40
+  offset: 0, 0
+  index: 8
+hud
+  rotate: false
+  xy: 2, 45
+  size: 32, 39
+  orig: 32, 39
+  offset: 0, 0
+  index: 7
+hud
+  rotate: false
+  xy: 36, 87
+  size: 32, 39
+  orig: 32, 39
+  offset: 0, 0
+  index: 9
+hud
+  rotate: false
+  xy: 2, 5
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 2
+hud
+  rotate: false
+  xy: 36, 47
+  size: 30, 38
+  orig: 30, 38
+  offset: 0, 0
+  index: 0
+hud
+  rotate: false
+  xy: 70, 88
+  size: 30, 38
+  orig: 30, 38
+  offset: 0, 0
+  index: 6
+hud
+  rotate: false
+  xy: 36, 7
+  size: 29, 38
+  orig: 29, 38
+  offset: 0, 0
+  index: 4
+hud
+  rotate: false
+  xy: 68, 47
+  size: 28, 38
+  orig: 28, 38
+  offset: 0, 0
+  index: 3
+hud
+  rotate: false
+  xy: 98, 48
+  size: 28, 38
+  orig: 28, 38
+  offset: 0, 0
+  index: 5
+hud
+  rotate: false
+  xy: 67, 8
+  size: 26, 37
+  orig: 26, 37
+  offset: 0, 0
+  index: 1

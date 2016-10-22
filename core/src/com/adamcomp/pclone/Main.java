@@ -1,16 +1,12 @@
 package com.adamcomp.pclone;
 
-import com.adamcomp.pclone.Screens.PlayScreen;
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public class Main extends ApplicationAdapter {
@@ -23,7 +19,6 @@ public class Main extends ApplicationAdapter {
 		viewport = new FitViewport(320, 240);
 		sceneLoader = new SceneLoader();
 		sceneLoader.loadScene("MainScene", viewport);
-
 		ItemWrapper root = new ItemWrapper(sceneLoader.getRoot());
 
 		player = new Player(sceneLoader.world);
