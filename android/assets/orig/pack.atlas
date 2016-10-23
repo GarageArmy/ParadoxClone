@@ -1,9 +1,16 @@
 
 pack.png
-size: 1024,256
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+BG
+  rotate: false
+  xy: 2, 242
+  size: 1000, 750
+  orig: 1000, 750
+  offset: 0, 0
+  index: -1
 bush
   rotate: false
   xy: 133, 97

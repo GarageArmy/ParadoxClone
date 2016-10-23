@@ -22,7 +22,6 @@ public class CloneSystem extends IteratingSystem {
 
     private ComponentMapper<CloneComponent> mapper = ComponentMapper.getFor(CloneComponent.class);
 
-    public int cloneFrame = 0;
 
     private float gravity = -500;
     private float jumpSpeed = 200;
@@ -39,21 +38,18 @@ public class CloneSystem extends IteratingSystem {
         DimensionsComponent dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
         CloneComponent cloneComponent = mapper.get(entity);
 
-        if (cloneFrame == 0) cloneComponent.frame = 0;
-        cloneFrame = cloneComponent.frame;
         speed = cloneComponent.speed;
 
-                    if (cloneComponent.movements.size() > cloneFrame) {
-                        if (cloneComponent.movements.get(cloneFrame) == "J")
+                    if (cloneComponent.movements.size() > cloneComponent.frame && cloneComponent.frame >= 0) {
+                        if (cloneComponent.movements.get(cloneComponent.frame) == "J")
                             cloneComponent.speed.y = jumpSpeed;
-                        if (cloneComponent.movements.get(cloneFrame) == "R")
+                        if (cloneComponent.movements.get(cloneComponent.frame) == "R")
                             cloneComponent.coord.x += cloneComponent.speed.x * deltaTime;
                            // transformComponent.scaleX = 1.0f;
-                        if (cloneComponent.movements.get(cloneFrame) == "L")
+                        if (cloneComponent.movements.get(cloneComponent.frame) == "L")
                             cloneComponent.coord.x -= cloneComponent.speed.x * deltaTime;
                            // transformComponent.scaleX = -1.0f;
             }cloneComponent.frame++;
-        cloneFrame = cloneComponent.frame;
         cloneComponent.speed.y += gravity * deltaTime;
         cloneComponent.coord.y += cloneComponent.speed.y * deltaTime;
 

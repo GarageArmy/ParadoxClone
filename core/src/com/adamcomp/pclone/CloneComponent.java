@@ -14,7 +14,7 @@ public class CloneComponent implements Component {
     public Stack<String> movements;
     public World world;
     public Vector2 speed = new Vector2(100, 0);
-    public Vector2 coord = new Vector2(40,40);
+    public Vector2 coord;
     public boolean grounded = false;
     public int frame = 0;
 
