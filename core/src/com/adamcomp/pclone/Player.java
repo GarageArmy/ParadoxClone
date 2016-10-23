@@ -60,7 +60,7 @@ public class Player implements IScript {
 
         speed.y += gravity * delta;
         transformComponent.y += speed.y * delta;
-
+        speed.x = 100;
         rayCast();
     }
 
@@ -71,6 +71,7 @@ public class Player implements IScript {
 
     private void inputHandler(float delta){
         boolean moved = false;
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             moved = true;
             transformComponent.x -= speed.x * delta;
@@ -94,14 +95,16 @@ public class Player implements IScript {
     }
 
     private void rayCast() {
-        float rayGap = dimensionsComponent.height / 2;
+        float rayGapHeight = dimensionsComponent.height / 2;
+        float rayGapWidth = dimensionsComponent.width / 2;
         float raySize = -(speed.y) * Gdx.graphics.getDeltaTime();
+        float raySizeX = (speed.x) * Gdx.graphics.getDeltaTime();
 
 
         //Raycast down
         if (speed.y <= 0) {
             Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
-                    (transformComponent.y + rayGap) * PhysicsBodyLoader.getScale());
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
             Vector2 rayTo = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
                     (transformComponent.y - raySize) * PhysicsBodyLoader.getScale());
 
@@ -121,15 +124,52 @@ public class Player implements IScript {
         //raycast up
         if (speed.y > 0) {
             Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
-                    (transformComponent.y + rayGap) * PhysicsBodyLoader.getScale());
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
             Vector2 rayTo = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
-                    (transformComponent.y + raySize + rayGap + rayGap) * PhysicsBodyLoader.getScale());
+                    (transformComponent.y + raySize + rayGapHeight + rayGapHeight) * PhysicsBodyLoader.getScale());
 
             //Cast the ray
             world.rayCast(new RayCastCallback() {
                 @Override
                 public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
                     speed.y = 0;
+                    return 0;
+
+                }
+            }, rayFrom, rayTo);
+        }
+
+        //raycast right
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
+            Vector2 rayTo = new Vector2((transformComponent.x + dimensionsComponent.width + raySizeX) * PhysicsBodyLoader.getScale(),
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
+
+            //Cast the ray
+            world.rayCast(new RayCastCallback() {
+                @Override
+                public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+                    speed.x = 0;
+                    transformComponent.x = transformComponent.x - 0.01f;
+                    return 0;
+
+                }
+            }, rayFrom, rayTo);
+
+        }//raycast left
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
+            Vector2 rayTo = new Vector2((transformComponent.x - raySizeX) * PhysicsBodyLoader.getScale(),
+                    (transformComponent.y + rayGapHeight) * PhysicsBodyLoader.getScale());
+
+            //Cast the ray
+            world.rayCast(new RayCastCallback() {
+                @Override
+                public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+                    speed.x = 0;
+                    transformComponent.x = transformComponent.x - 0.01f;
                     return 0;
 
                 }
