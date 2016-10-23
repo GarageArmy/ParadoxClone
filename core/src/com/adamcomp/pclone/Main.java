@@ -102,7 +102,7 @@ public class Main extends ApplicationAdapter {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) &&
 				playerTransform.x >= startTransform.x - 10 && playerTransform.x <= startTransform.x + 12 &&
 				playerTransform.y >= startTransform.y - 10 && playerTransform.y <= startTransform.y + 12) {
-					playerTransform = startTransform;
+					playerTransform.x = startTransform.x;
 					addClone(player.getStack());
 					player.getStack().clear();
 					for (int i = 1; i < cloneComponentStack.size() + 1; i++){

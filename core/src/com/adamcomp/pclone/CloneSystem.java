@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -28,7 +29,7 @@ public class CloneSystem extends IteratingSystem {
 
     Vector2 speed;
 
-    public CloneSystem(){
+    public CloneSystem() {
         super(Family.all(CloneComponent.class).get());
     }
 
@@ -40,20 +41,24 @@ public class CloneSystem extends IteratingSystem {
 
         speed = cloneComponent.speed;
 
-                    if (cloneComponent.movements.size() > cloneComponent.frame && cloneComponent.frame >= 0) {
-                        if (cloneComponent.movements.get(cloneComponent.frame) == "J")
-                            cloneComponent.speed.y = jumpSpeed;
-                        if (cloneComponent.movements.get(cloneComponent.frame) == "R")
-                            cloneComponent.coord.x += cloneComponent.speed.x * deltaTime;
-                           // transformComponent.scaleX = 1.0f;
-                        if (cloneComponent.movements.get(cloneComponent.frame) == "L")
-                            cloneComponent.coord.x -= cloneComponent.speed.x * deltaTime;
-                           // transformComponent.scaleX = -1.0f;
-            }cloneComponent.frame++;
+        if (cloneComponent.movements.size() > cloneComponent.frame && cloneComponent.frame >= 0) {
+            if (cloneComponent.movements.get(cloneComponent.frame) == "J")
+                cloneComponent.speed.y = jumpSpeed;
+            if (cloneComponent.movements.get(cloneComponent.frame) == "R")
+                cloneComponent.coord.x += cloneComponent.speed.x * deltaTime;
+            // transformComponent.scaleX = 1.0f;
+            if (cloneComponent.movements.get(cloneComponent.frame) == "L")
+                cloneComponent.coord.x -= cloneComponent.speed.x * deltaTime;
+            // transformComponent.scaleX = -1.0f;
+        }
+        cloneComponent.frame++;
         cloneComponent.speed.y += gravity * deltaTime;
         cloneComponent.coord.y += cloneComponent.speed.y * deltaTime;
 
+        cloneComponent.speed.x = 100;
         rayCast(dimensionsComponent, transformComponent, cloneComponent.world, cloneComponent);
+        if (speed.x == 0) cloneComponent.speed.x = 0;
+
 
         transformComponent.x = cloneComponent.coord.x;
         transformComponent.y = cloneComponent.coord.y;
@@ -62,6 +67,7 @@ public class CloneSystem extends IteratingSystem {
     private void rayCast(DimensionsComponent dimensionsComponent, TransformComponent transformComponent, World world, final CloneComponent clone) {
         float rayGap = dimensionsComponent.height / 2;
         float raySize = -(speed.y) * Gdx.graphics.getDeltaTime();
+        float raySizeX = (speed.x) * Gdx.graphics.getDeltaTime();
 
 
         //Raycast down
@@ -101,6 +107,48 @@ public class CloneSystem extends IteratingSystem {
 
                 }
             }, rayFrom, rayTo);
+        }
+
+        //raycast right
+        if (clone.frame - 1 >= 0 && clone.frame < clone.movements.size()) {
+            if (clone.movements.get(clone.frame - 1) == "R") {
+                Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+                        (transformComponent.y + dimensionsComponent.height / 2) * PhysicsBodyLoader.getScale());
+                Vector2 rayTo = new Vector2((transformComponent.x + dimensionsComponent.width + raySizeX) * PhysicsBodyLoader.getScale(),
+                        (transformComponent.y + dimensionsComponent.height / 2) * PhysicsBodyLoader.getScale());
+
+                //Cast the ray
+                world.rayCast(new RayCastCallback() {
+                    @Override
+                    public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+                        speed.x = 0;
+                        clone.coord.x = clone.coord.x - 0.01f;
+                        return 0;
+
+                    }
+                }, rayFrom, rayTo);
+            }
+        }
+
+        //Raycast Left
+        if (clone.frame - 1 >= 0 && clone.frame < clone.movements.size()) {
+            if (clone.movements.get(clone.frame - 1) == "R") {
+                Vector2 rayFrom = new Vector2((transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+                        (transformComponent.y + dimensionsComponent.height / 2) * PhysicsBodyLoader.getScale());
+                Vector2 rayTo = new Vector2((transformComponent.x - raySizeX) * PhysicsBodyLoader.getScale(),
+                        (transformComponent.y + dimensionsComponent.height / 2) * PhysicsBodyLoader.getScale());
+
+                //Cast the ray
+                world.rayCast(new RayCastCallback() {
+                    @Override
+                    public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+                        speed.x = 0;
+                        clone.coord.x = clone.coord.x + 0.01f;
+                        return 0;
+
+                    }
+                }, rayFrom, rayTo);
+            }
         }
     }
 }
